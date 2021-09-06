@@ -1,0 +1,98 @@
+﻿@model IEnumerable<ECommerceV2.Models.ProductModel>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+
+<div class="lang">
+    <button class="flag-icon flag-icon-tr" style="width: 28px; border: none; float: right; left: 10px;" onclick="switchTr()"></button>
+    <button class="flag-icon flag-icon-gb" style="width: 28px; border: none; float: right" onclick="switchEn()"></button>
+</div>
+<br />
+
+<h1>Welcome to E-Commerce Basic Application</h1>
+<br />
+<br />
+
+<div class="btn-group">
+    <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Categories
+    </button>
+    <div class="dropdown-menu">
+        <a class="dropdown-item" href="MobilePhone">Mobile Phones</a>
+        <a class="dropdown-item" href="Notebook">Notebook</a>
+        <a class="dropdown-item" href="SmartWatch">Smart Watches</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="Index">All Products & Categories</a>
+    </div>
+</div>
+
+<div style="height:400px;overflow-y:scroll">
+    <table class="table table-striped" align="right">
+        <thead class="alert-dark">
+            <tr>
+                <td><strong>Product Name</strong></td>
+                <td><strong>Product Info</strong></td>
+                <td><strong>Category</strong></td>
+                <td><strong>Unit Price</strong></td>
+                <td><strong>Stock Quantity</strong></td>
+                <td><strong>Status</strong></td>
+                <td><strong>Operate</strong></td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>@item.ProductName</td>
+                <td>@item.ProductInfo</td>
+                <td>@item.CategoryName</td>
+                <td>@item.UnitPrice</td>
+                <td>@item.StockQuantity</td>
+                @if (item.UserId == -1)
+                {
+                    <td>For Sale</td>
+                    <td><a onclick="buyItem('@item.ProductName')" href="/Product/BuyItem/?productName=@item.ProductName" class="btn btn-success">Buy</a></td>
+                }
+                else
+                {
+                    <td>Sold</td>
+                    <td><button class="btn btn-success" disabled="disabled">Buy</button></td>
+                }
+                <td><a onclick="deleteItem()" href="/Product/DeleteItem/?productName=@item.ProductName" class="btn btn-danger">Delete</a></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<br />
+<a href="@Url.Action("Create", "Product")">Add New Product</a>
+
+<script type="text/javascript">
+
+    function switchTr()
+    {
+        window.location.href = '@Url.Action("SwitchToTr", "Product")';
+    }
+
+    function switchEn()
+    {
+        window.location.href = '@Url.Action("SwitchToEng", "Product")';
+    }
+
+    function deleteItem() {
+        alert("Are you sure? Once deleted you will not be able to get the product back!");
+    }
+
+    function buyItem() {
+        alert("Congratulations! You bought " + productName);
+    }
+
+</script>
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>

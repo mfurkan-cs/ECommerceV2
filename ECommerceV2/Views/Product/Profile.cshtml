@@ -1,0 +1,76 @@
+﻿@model IEnumerable<ECommerceV2.Models.ProductModel>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
+
+<div class="lang">
+    <button class="flag-icon flag-icon-tr" style="width: 28px; border: none; float: right; left: 10px;" onclick="switchTr()"></button>
+    <button class="flag-icon flag-icon-gb" style="width: 28px; border: none; float: right" onclick="switchEn()"></button>
+</div>
+<br />
+<br />
+
+@if (Model.Count() == 0)
+{
+    <h3>Hello @ViewBag.userName, your have not purchased any product yet!</h3>
+}
+else
+{
+    <h3 class="alert-success">Hello @ViewBag.userName, your products are listed below</h3>
+    <br />
+    <br />
+    <table class="table table-striped" align="right">
+        <thead class="alert-dark">
+            <tr>
+                <td><strong>Product Name</strong></td>
+                <td><strong>Product Info</strong></td>
+                <td><strong>Category</strong></td>
+                <td><strong>Unit Price</strong></td>
+                <td><strong>Stock Quantity</strong></td>
+                <td><strong>Sell</strong></td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>@item.ProductName</td>
+                <td>@item.ProductInfo</td>
+                <td>@item.CategoryName</td>
+                <td>@item.UnitPrice</td>
+                <td>@item.StockQuantity</td>
+                <td><a onclick="deleteItem('@item.ProductName')" href="/Product/SellItem/?productName=@item.ProductName" class="btn btn-success">Sell</a></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+}
+
+<br />
+<br />
+
+<br />
+<a href="@Url.Action("Index", "Product")">Go back to product list</a>
+
+<script type="text/javascript">
+
+    function switchTr() {
+        window.location.href = '@Url.Action("SwitchToTr", "Product")';
+    }
+
+    function switchEn() {
+        window.location.href = '@Url.Action("SwitchToEng", "Product")';
+    }
+
+    function deleteItem(productName) {
+        alert("Are you sure you want to sell " + productName + "?");
+    }
+
+</script>
+<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
